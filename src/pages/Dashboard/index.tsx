@@ -7,24 +7,35 @@ import ModalAddFood from '../../components/ModalAddFood';
 import ModalEditFood from '../../components/ModalEditFood';
 import { FoodsContainer } from './styles';
 
+
+  interface FoodData {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    available: boolean;
+    image: string;
+  }
+
+  type FoodInput = Omit<FoodData, 'id'>;
+
 function Dashboard() {
-  const [foods, setFoods] = useState([]);
-  const [editingFood, setEditingFood] = useState({});
+  const [foods, setFoods] = useState<FoodData[]>([]);
+  const [editingFood, setEditingFood] = useState<FoodData>({} as FoodData);
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  console.log('editingFood', editingFood);
-
   useEffect(() => {
     async function getFoods() {
-      const response = await api.get('/foods');
+      const response = await api.get<FoodData[]>('/foods');
+      
     setFoods(response.data);
     }
     getFoods();
   }, []);
 
-  const handleAddFood = async food => {
-    const { newFoods } = foods;
+  const handleAddFood = async (food: FoodInput) => {
+    const newFoods = [...foods];
 
     try {
       const response = await api.post('/foods', {
@@ -38,8 +49,8 @@ function Dashboard() {
     }
   }
 
-  const handleUpdateFood = async food => {
-    const { newFoods } = foods;
+  const handleUpdateFood = async (food: FoodData) => {
+    const newFoods = [...foods];
   
     try {
       const foodUpdated = await api.put(
@@ -51,14 +62,14 @@ function Dashboard() {
         f.id !== foodUpdated.data.id ? f : foodUpdated.data,
       );
 
-      this.setFoods(foodsUpdated);
+      setFoods(foodsUpdated);
     } catch (err) {
       console.log(err);
     }
   }
 
-  const handleDeleteFood = async id => {
-    const { newFoods } = foods;
+  const handleDeleteFood = async (id: number) => {
+    const newFoods = [...foods];
 
     await api.delete(`/foods/${id}`);
 
@@ -75,8 +86,7 @@ function Dashboard() {
     setEditModalOpen(!editModalOpen);
   }
 
-  const handleEditFood = food => {
-    console.log(food);
+  const handleEditFood = (food: FoodData) => {
     setEditingFood(food);
     setEditModalOpen(true);
   }
