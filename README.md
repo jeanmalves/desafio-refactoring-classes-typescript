@@ -17,3 +17,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 O site Go Restaurant, sua primeira versão, foi desenvolvido em javascript utilizando classes, então o desafio proposto pela RocketSeat, na trilha ignite, foi migrar para funcional components utilizando typescript.
 
 Foram feitas adequações em propriedades dos componentes, adicionado tipos. O estado da aplicação foi adequado para utilizar React Hooks.
+
+### Melhorias mapeadas:
+ - Utilização de service
+ - Testes
