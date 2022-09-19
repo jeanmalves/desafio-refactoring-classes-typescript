@@ -17,7 +17,7 @@ import { FoodsContainer } from './styles';
     image: string;
   }
 
-  type FoodInput = Omit<FoodData, 'id'>;
+  export type FoodInput = Omit<FoodData, 'id' | 'available'>;
 
 function Dashboard() {
   const [foods, setFoods] = useState<FoodData[]>([]);
